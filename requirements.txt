@@ -1,0 +1,10 @@
+fastapi>=0.115.12
+uvicorn>=0.34.2
+pydantic>=2.11.4
+unidecode>=1.4.0
+python-multipart>=0.0.20
+pydub>=0.25.1
+TTS>=0.22.0
+piper-tts>=1.2.0
+soundfile>=0.13.1
+requests>=2.32.3
