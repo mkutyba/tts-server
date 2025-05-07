@@ -113,24 +113,22 @@ class TTSManager:
     def _run_tts(self, text: str, language: str, output_path: str):
         try:
             if not self._stop_event.is_set():
-                logger.info(f"Starting TTS generation for language: {language}")
                 tts = self.get_tts(language)
                 logger.info("TTS instance created successfully")
                 
                 logger.info("Starting text synthesis...")
-                audio = tts.synthesize(text)
-                logger.info(f"Text synthesis completed. Audio shape: {audio.shape if hasattr(audio, 'shape') else 'unknown'}")
+                # Use tts_to_file instead of synthesize
+                tts.tts_to_file(text=text, file_path=output_path)
+                logger.info("Text synthesis completed successfully")
                 
-                logger.info(f"Saving audio to WAV file: {output_path}")
-                sf.write(output_path, audio, tts.sample_rate)
-                logger.info("WAV file saved successfully")
-                
+                # Convert WAV to MP3
                 logger.info("Converting WAV to MP3...")
-                audio_segment = AudioSegment.from_wav(output_path)
+                audio = AudioSegment.from_wav(output_path)
                 mp3_path = output_path.replace('.wav', '.mp3')
-                audio_segment.export(mp3_path, format='mp3', bitrate='192k')
+                audio.export(mp3_path, format='mp3', bitrate='192k')
                 logger.info(f"MP3 file saved successfully: {mp3_path}")
                 
+                # Remove the original WAV file
                 logger.info("Removing temporary WAV file...")
                 os.remove(output_path)
                 logger.info("Temporary WAV file removed")
