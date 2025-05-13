@@ -7,9 +7,19 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libsndfile1 \
     ffmpeg \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Piper TTS
+RUN wget https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_linux_x86_64.tar.gz && \
+    tar xvf piper_linux_x86_64.tar.gz && \
+    mv piper/piper /usr/local/bin/ && \
+    cp -r piper/espeak-ng-data /usr/share/ && \
+    cp -r piper/* /usr/lib/ && \
+    rm -rf piper piper_linux_x86_64.tar.gz
+
 # Copy requirements first to leverage Docker cache
+RUN pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 

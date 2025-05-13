@@ -1,5 +1,4 @@
 import logging
-from TTS.api import TTS
 import os
 import requests
 
@@ -9,22 +8,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
-
-def download_tts_models():
-    """Download required TTS models."""
-    models = {
-        "en": "tts_models/en/ljspeech/tacotron2-DDC",
-        "pl": "tts_models/pl/mai_female/vits"
-    }
-    
-    for lang, model in models.items():
-        try:
-            logger.info(f"Downloading {lang} model: {model}")
-            tts = TTS(model)
-            logger.info(f"Successfully downloaded {lang} model")
-        except Exception as e:
-            logger.error(f"Error downloading {lang} model: {str(e)}")
-            raise
 
 def download_piper_model(model_name: str):
     """Download and setup a Piper TTS model."""
@@ -91,7 +74,6 @@ def download_piper_models():
 def download_all_models():
     """Download all required TTS models."""
     logger.info("Starting model download process")
-    download_tts_models()
     download_piper_models()
     logger.info("Model download process completed")
 

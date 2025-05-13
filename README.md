@@ -33,7 +33,7 @@ docker run -p 8000:8000 tts-server
 
 ### Generate Speech Endpoint
 
-**POST** `/generate`
+**POST** `/generate1`
 
 Request body:
 ```json
@@ -46,7 +46,7 @@ Request body:
 
 Example using curl:
 ```bash
-curl -X POST http://localhost:8000/generate \
+curl -X POST http://localhost:8000/generate1 \
   -H "Content-Type: application/json" \
   -d '{"text": "Hello, this is a test message.", "language": "en", "title": "My Speech"}' \
   --output my_speech.mp3
